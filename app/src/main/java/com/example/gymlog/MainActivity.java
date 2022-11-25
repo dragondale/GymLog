@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecycleViewerInterface{
+
+    public ArrayList<WorkoutName> testList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +26,22 @@ public class MainActivity extends AppCompatActivity {
         WorkoutName test2 = new WorkoutName("Tuesday");
         WorkoutName test3 = new WorkoutName("Friday");
 
-        ArrayList<WorkoutName> testList = new ArrayList<WorkoutName>();
+        testList = new ArrayList<WorkoutName>();
         testList.add(test1);
         testList.add(test2);
         testList.add(test3);
 
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, testList);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, testList, this);
 
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(MainActivity.this, PerformWorkoutActivity.class);
+        intent.putExtra("NAME", testList.get(position).workoutName);
+        startActivity(intent);
     }
 }
