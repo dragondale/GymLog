@@ -22,4 +22,8 @@ public class WorkoutHistory {
     @ColumnInfo(name = "training_name")
     public String trainingName;
 
+    public WorkoutHistory() {
+        this.trainingNumber = 0;
+        this.trainingName = "training_name";
+    }
 }

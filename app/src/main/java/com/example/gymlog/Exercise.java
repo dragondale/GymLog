@@ -12,4 +12,8 @@ public class Exercise {
 
     @ColumnInfo(name = "exercise_name")
     public String exerciseName;
+
+    public Exercise() {
+        this.exerciseName = exerciseName;
+    }
 }

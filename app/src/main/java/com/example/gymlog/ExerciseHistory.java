@@ -31,4 +31,13 @@ public class ExerciseHistory {
     // resources as it probably won't be used often.
     @ColumnInfo(name = "weight")
     public int weight;
+
+    public ExerciseHistory() {
+        this.workoutNumber = 0;
+        this.exerciseId = 0;
+        this.exerciseNumber = 0;
+        this.setNumber = 0;
+        this.repNumber = 0;
+        this.weight = 0;
+    }
 }
