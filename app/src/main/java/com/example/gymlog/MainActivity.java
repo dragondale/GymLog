@@ -1,47 +1,52 @@
 package com.example.gymlog;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.example.gymlog.databinding.ActivityMainBinding;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements RecycleViewerInterface{
+public class MainActivity extends AppCompatActivity{
 
-    public ArrayList<WorkoutName> testList;
+    private ActivityMainBinding binding;
+
+    TabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.rv_workout_plans);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        // Just for testing
-
-        WorkoutName test1 = new WorkoutName("Monday");
-        WorkoutName test2 = new WorkoutName("Tuesday");
-        WorkoutName test3 = new WorkoutName("Friday");
-
-        testList = new ArrayList<WorkoutName>();
-        testList.add(test1);
-        testList.add(test2);
-        testList.add(test3);
-
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, testList, this);
-
-        recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        ViewPager viewPager = binding.viewPager;
+        viewPager.setAdapter(sectionsPagerAdapter);
+        tabs = binding.tabs;
+        tabs.setupWithViewPager(viewPager);
 
     }
 
     @Override
-    public void onItemClick(int position) {
-        Intent intent = new Intent(MainActivity.this, PerformWorkoutActivity.class);
-        intent.putExtra("NAME", testList.get(position).workoutName);
-        startActivity(intent);
+    public void onBackPressed()
+    {
+        int currentTab = tabs.getSelectedTabPosition();
+        if(currentTab == 1 || currentTab == 2) {
+            tabs.selectTab(tabs.getTabAt(0));
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 }
